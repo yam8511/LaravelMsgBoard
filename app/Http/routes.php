@@ -20,3 +20,15 @@ Route::get('/', function () {
 Route::auth();
 
 Route::get('/home', 'HomeController@index');
+
+/*
+Route::get('/', 'HomeController@index');
+
+Route::post('/', 'HomeController@process');
+
+Route::auth();
+
+Route::get('/home', 'HomeController@index');
+
+Route::get('/add','HomeController@add')->middleware('auth');
+*/

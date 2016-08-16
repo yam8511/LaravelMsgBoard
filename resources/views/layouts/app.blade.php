@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="shortcut icon" href="images/404.png" />
     <title>Snoopy's Message Board</title>
-    <link rel="stylesheet" href="css/w3.css">
+    <link rel="stylesheet" href="http://www.w3schools.com/lib/w3.css">
     <link rel="stylesheet" href="http://www.w3schools.com/lib/w3-theme-green.css">
     <link rel="stylesheet" href="http://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.6.3/css/font-awesome.min.css">
 
@@ -32,17 +32,16 @@
         </a>
         <img src="images/404.png" class="w3-round" width="45%" />
         <br><br>
-        <h4 class="w3-padding-0"><b><?= $user->name ?></b></h4>
+        <h4 class="w3-padding-0"><b>Guest</b></h4>
         <p class="w3-text-grey">Template by W3.CSS</p>
     </div>
     <a href="/" class="w3-padding w3-text-teal"><i class="fa fa-home w3-xlarge"></i> 留言板</a>
-    @if($login)
+
     <a href=" belong" class=" w3-text-teal w3-padding w3-hover-theme"><i class="fa fa-book w3-xlarge"></i> 我的留言</a>
     <a href="logout" class=" w3-text-teal w3-padding w3-hover-theme"><i class="fa fa-sign-out  w3-xlarge"></i>登出</a>
-    @else
+  
     <a href="register" class=" w3-text-teal w3-padding w3-hover-theme"><i class="fa fa-user-plus w3-xlarge"></i> 註冊</a>
     <a href="login" class=" w3-text-teal w3-padding w3-hover-theme"><i class="fa fa-sign-in  w3-xlarge"></i>登入</a>
-    @endif
 </nav>
 
 <!-- Overlay effect when opening sidenav on small screens -->
