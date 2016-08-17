@@ -10,8 +10,8 @@
 <div class="w3-container w3-margin-bottom">
     <ul class="w3-ul w3-card-4">
         <!-- 回覆列表 -->
-        @foreach( $msg->replies as $rpl )
-        <li class="w3-container w3-black">
+        @foreach( $msg->replies as $index => $rpl )
+        <li class="w3-container {{ $bg[$index%2] }}">
             <div class="w3-container">
                 <span class="w3-large"><a style="text-decoration: none;" href="/view/{{ $rpl->user_id }}">{{ $rpl->username($rpl->user_id)}}</a></span>　　
                 <span class="w3-small w3-text-grey">{{ $rpl->updated_at }}</span><br>
@@ -19,21 +19,20 @@
             </div>
             <!-- 修改&刪除按鈕 -->
             <div class="w3-container w3-padding">
-                @if( $login && ( $rpl->user_id == Auth::user()->id || Auth::user()->admin ) )
-                <a class="w3-btn w3-round w3-purple" title="修改" onclick="show('<?= $modal_edit_id ?>')"><i class="fa
-    	        fa-pencil"></i></a>
-                <!-- 顯示編輯視窗 -->
-                @include('modal_edit', ['modal_id' => 'modal_edit_rpl_'.$rpl->id, 'type' => 'rpl', 'msg' => $msg])
-                    <?= View::forge('msg/modal_edit',['title'=>$msg->title, 'msg'=>$rpl,'home'=>$home,'modal_id'=>$modal_edit_id,'type'=>'reply']) ?>
+                @if( $login && ( $rpl->user_id == Auth::user()->id ) )
+                    <a class="w3-btn w3-round w3-purple" title="修改" onclick="show('modal_edit_rpl_{{ $rpl->id }}')"><i class="fa
+        	        fa-pencil"></i></a>
+                    <!-- 顯示編輯視窗 -->
+                    @include('modal_edit', ['type' => 'rpl', 'msg' => $rpl])
                 @endif
-                <?php }if(($user->id == -1 || $user->id == $msg->user_id || $user->id == $rpl->user_id) && $user->id != -2){ ?>
-                <a class="w3-btn w3-round w3-red" title="刪除" onclick="show('<?= $modal_delete_id ?>')"><i class="fa fa-trash"></i></a>
-                <!-- 顯示刪除提醒視窗 -->
-                <?= View::forge('msg/modal_delete',['type'=>'reply','msg'=>$rpl,'home'=>$home,'modal_id'=>$modal_delete_id]) ?>
-                <?php } ?>
+                @if( $login && ( $rpl->user_id == Auth::user()->id || $msg->user($msg->user_id)->id == Auth::user()->id ) )
+                    <a class="w3-btn w3-round w3-red" title="刪除" onclick="show('modal_delete_rpl_{{ $rpl->id }}')"><i class="fa fa-trash"></i></a>
+                    <!-- 顯示刪除提醒視窗 -->
+                    @include('modal_delete', ['type' => 'rpl', 'msg' => $rpl])
+                @endif
             </div>
         </li>
-        <?php } ?>
+        @endforeach
     </ul>
 </div>
 

@@ -10,9 +10,20 @@ use Auth;
 
 class ReplyController extends Controller
 {
+    public function __construct() {
+        if(!Auth::check()) {
+            return redirect('login');
+        }
+    }
+    /**
+     * add the Reply to DB
+     */
     public function addReply(Request $request) {
         if(!Auth::check()) {
-            $request->session()->flash('failed', '請先登入，才能回覆!');
+            return redirect('login');
+        }
+
+        if ($request->input('message') == '') {
             return redirect('/');
         }
 
@@ -27,4 +38,52 @@ class ReplyController extends Controller
         $request->session()->flash('success', '回覆成功');
         return redirect('/');
     }
+
+
+    public function editReply(Request $request) {
+        if(!Auth::check()) {
+            return redirect('login');
+        }
+
+        if ($request->input('message') == '') {
+            return redirect('/');
+        }
+
+        
+        $msg = Reply::find($request->input('id'));
+
+        if($msg) {
+            if(Auth::user()->id != $msg->user_id) {
+                $request->session()->flash('failed', '這不是你的回覆!');
+                return redirect('/');
+            }
+
+            $origin_msg = preg_replace('/\s(?=)/', '', trim($msg->message));
+            $new_msg = preg_replace('/\s(?=)/', '', trim($request->input('message')));
+
+            if($origin_msg == $new_msg) {
+                return redirect('/');
+            }
+
+            $msg->message = $request->input('message');
+            $msg->save();
+            $request->session()->flash('success', 'Reply 編輯成功');
+        } else {
+            $request->session()->flash('failed', 'Reply 編輯錯誤');
+        }
+        return redirect('/');
+    }
+
+    public function deleteReply(Request $request)
+    {
+        $rpl = Reply::find($request->input('id'));
+        if($rpl) {
+            $rpl->delete();
+            $request->session()->flash('success', 'Reply 刪除成功');
+        } else {
+            $request->session()->flash('failed', 'Reply 刪除失敗');
+        }
+        return redirect('/');
+    }
+
 }

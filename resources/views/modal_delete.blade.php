@@ -6,7 +6,7 @@
  * Time: 上午 11:58
  */
 ?>
-<?php $modal_id = 'modal_delete_'.$type.'_'.$id; ?>
+<?php $modal_id = 'modal_delete_'.$type.'_'.$msg->id; ?>
 <div id="{{ $modal_id }}" class="w3-modal" style="z-index: 900;">
     <div class="w3-modal-content w3-animate-zoom w3-card-8">
         <header class="w3-container w3-pale-red">

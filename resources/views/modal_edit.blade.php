@@ -6,7 +6,7 @@
  * Time: 下午 02:10
  */
 ?>
-<?php $modal_id = 'modal_edit_'.$type.'_'.$id; ?>
+<?php $modal_id = 'modal_edit_'.$type.'_'.$msg->id; ?>
 <div id="{{ $modal_id }}" class="w3-modal" style="z-index: 900;">
     <div class="w3-modal-content w3-animate-zoom w3-card-8">
         <header class="w3-container w3-purple">
@@ -17,7 +17,7 @@
             @if($type == 'msg')
             <h3 class="w3-text-black">{{ $msg->title }}</h3>
             @else
-            <h3 class="w3-text-black">RE: {{ $msg->title }}</h3>
+            <h3 class="w3-text-black">RE: {{ $msg->msgboard->title }}</h3>
             @endif
 
             <div class="w3-container">

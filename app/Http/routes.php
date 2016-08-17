@@ -22,19 +22,19 @@ Route::get('add','MsgboardController@add');
 
 Route::post('/', 'MsgboardController@addProcess');
 
-Route::put('edit_msg','MsgboardController@editMessage');
+Route::put('edit_msg','MsgboardController@editMessage')->middleware('auth');
 
-Route::delete('del_msg', 'MsgboardController@deleteMessage');
+Route::delete('del_msg', 'MsgboardController@deleteMessage')->middleware('auth');
 
-Route::put('edit_rpl','MsgboardController@editReply');
+Route::put('edit_rpl','ReplyController@editReply')->middleware('auth');
 
-Route::delete('del_rpl', 'MsgboardController@deleteReply');
+Route::delete('del_rpl', 'ReplyController@deleteReply')->middleware('auth');
 
 Route::post('reply', 'ReplyController@addReply');
 
 Route::get('test', function(){
-    $msgs = Msgboard::all();
+    $msgs = App\Reply::all();
     foreach($msgs as $msg){
-        echo $msg->title . ". Posted by " . $msg->userInfo($msg->user_id)->name . "<br>";
+        echo $msg->message . ". Reply to " . $msg->msgboard->title . "<br>";
     }
 });

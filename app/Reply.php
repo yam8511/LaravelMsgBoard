@@ -6,6 +6,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class Reply extends Model
 {
+
     /**
      * 取得留言者資訊
      *
@@ -33,7 +34,7 @@ class Reply extends Model
         }
     }
 
-    public function Message() {
+    public function msgboard() {
         return $this->belongsTo('App\Msgboard');
     }
 }

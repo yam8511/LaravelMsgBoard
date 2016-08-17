@@ -51,7 +51,7 @@
         </div>
         <!-- 回覆留言 -->
         <div class="w3-border-top w3-border-teal w3-padding">
-            @include('reply', ['login'=>$login, 'msg'=>$msg])
+            @include('reply', ['login'=>$login, 'msg'=>$msg, 'bg' => $bg])
         </div>
     </div>
     @endforeach

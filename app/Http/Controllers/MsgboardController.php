@@ -29,6 +29,7 @@ class MsgboardController extends Controller
     {
         $msgs = Msgboard::all()->sortByDesc('updated_at');
         $style = [];
+        $bg = ['w3-black', 'w3-white'];
 
         for($i = 0; $i < $msgs->count(); $i++) {
             switch ($i % 3) {
@@ -44,7 +45,7 @@ class MsgboardController extends Controller
             }
         }
 
-        $data = ['login' => Auth::check(), 'title' => '留言板', 'msgs' => $msgs, 'style' => $style, 'success' => false, 'failed' => false];
+        $data = ['login' => Auth::check(), 'title' => '留言板', 'msgs' => $msgs, 'style' => $style, 'bg' => $bg,'success' => false, 'failed' => false];
 
         if($request->session()->has('success')) {
             $data['success'] = $request->session()->get('success');
@@ -96,6 +97,11 @@ class MsgboardController extends Controller
      */
     public function editMessage(Request $request)
     {
+        if(!Auth::user()->id != $request->input('id')) {
+            $request->session()->flash('failed', '這不是你發的文!');
+            return redirect('/');
+        }
+        
         $msg = Msgboard::find($request->input('id'));
         if($msg) {
             $origin_msg = preg_replace('/\s(?=)/', '', trim($msg->message));
