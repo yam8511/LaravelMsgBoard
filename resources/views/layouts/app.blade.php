@@ -32,16 +32,18 @@
         </a>
         <img src="images/404.png" class="w3-round" width="45%" />
         <br><br>
-        <h4 class="w3-padding-0"><b>Guest</b></h4>
+        <h4 class="w3-padding-0"><b><?= $login ? Auth::user()->name : 'Guest' ?></b></h4>
         <p class="w3-text-grey">Template by W3.CSS</p>
     </div>
     <a href="/" class="w3-padding w3-text-teal"><i class="fa fa-home w3-xlarge"></i> 留言板</a>
 
+    @if($login)
     <a href=" belong" class=" w3-text-teal w3-padding w3-hover-theme"><i class="fa fa-book w3-xlarge"></i> 我的留言</a>
     <a href="logout" class=" w3-text-teal w3-padding w3-hover-theme"><i class="fa fa-sign-out  w3-xlarge"></i>登出</a>
-  
+    @else
     <a href="register" class=" w3-text-teal w3-padding w3-hover-theme"><i class="fa fa-user-plus w3-xlarge"></i> 註冊</a>
     <a href="login" class=" w3-text-teal w3-padding w3-hover-theme"><i class="fa fa-sign-in  w3-xlarge"></i>登入</a>
+    @endif
 </nav>
 
 <!-- Overlay effect when opening sidenav on small screens -->
@@ -67,7 +69,7 @@
 
 
     <div class="w3-container w3-padding">
-        <h1>TITLE</h1>
+        <h1>{{ $title }}</h1>
         <hr>
         <!-- Content -->
         @yield('content')
@@ -97,5 +99,7 @@
     }
 </script>
 <script type="text/javascript" src="//ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
+<script src="js/modal.js"></script>
+<script src="js/textarea.js"></script>
 </body>
 </html>

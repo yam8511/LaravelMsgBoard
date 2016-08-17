@@ -11,24 +11,30 @@
 |
 */
 use Illuminate\Support\Facades\Auth;
-Route::get('/', function () {
-    $user = \App\User::find(1);
-    $data = ['user'=>$user,'login'=>true];
-    return view('welcome', $data);
+
+Route::auth();
+
+Route::get('/', 'MsgboardController@index');
+
+Route::get('home', 'MsgboardController@index');
+
+Route::get('add','MsgboardController@add');
+
+Route::post('/', 'MsgboardController@addProcess');
+
+Route::put('edit_msg','MsgboardController@editMessage');
+
+Route::delete('del_msg', 'MsgboardController@deleteMessage');
+
+Route::put('edit_rpl','MsgboardController@editReply');
+
+Route::delete('del_rpl', 'MsgboardController@deleteReply');
+
+Route::post('reply', 'ReplyController@addReply');
+
+Route::get('test', function(){
+    $msgs = Msgboard::all();
+    foreach($msgs as $msg){
+        echo $msg->title . ". Posted by " . $msg->userInfo($msg->user_id)->name . "<br>";
+    }
 });
-
-Route::auth();
-
-Route::get('/home', 'HomeController@index');
-
-/*
-Route::get('/', 'HomeController@index');
-
-Route::post('/', 'HomeController@process');
-
-Route::auth();
-
-Route::get('/home', 'HomeController@index');
-
-Route::get('/add','HomeController@add')->middleware('auth');
-*/

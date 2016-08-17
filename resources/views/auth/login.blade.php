@@ -1,4 +1,4 @@
-@extends('layouts.app')
+@extends('layouts.app', ['login'=>false, 'title'=>'登入'])
 
 @section('content')
 <div class="container">
@@ -17,7 +17,7 @@
                                 <input id="email" type="email" class="form-control" name="email" value="{{ old('email') }}">
 
                                 @if ($errors->has('email'))
-                                    <span class="help-block">
+                                    <span class="help-block hint">
                                         <strong>{{ $errors->first('email') }}</strong>
                                     </span>
                                 @endif
