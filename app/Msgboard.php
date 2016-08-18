@@ -41,4 +41,13 @@ class Msgboard extends Model
     public function replies() {
         return $this->hasMany('App\Reply');
     }
+
+    /**
+     * 取得留言的上傳圖片
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     */
+    public function uploads() {
+        return $this->hasMany('App\Upload');
+    }
 }

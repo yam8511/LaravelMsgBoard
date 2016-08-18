@@ -32,9 +32,19 @@ Route::delete('del_rpl', 'ReplyController@deleteReply')->middleware('auth');
 
 Route::post('reply', 'ReplyController@addReply');
 
-Route::get('test', function(){
-    $msgs = App\Reply::all();
-    foreach($msgs as $msg){
-        echo $msg->message . ". Reply to " . $msg->msgboard->title . "<br>";
-    }
+Route::get('belong', 'MsgboardController@belongUser')->middleware('auth');
+
+Route::get('view/{id}', 'MsgboardController@viewUser');
+
+Route::get('/test', function(){
+    $msg = App\Msgboard::find(37);
+    echo $msg->title;
+    echo $msg->uploads[0]->name;
 });
+/*
+@if($msg->uploads)
+            <div class="w3-container">
+                <img class="w3-round" src="{{ $msg->uploads[0]->saved_to.'/'.$msg->uploads[0]->saved_as }}" alt="{{ $msg->uploads[0]->name }}">
+            </div>
+@endif
+*/

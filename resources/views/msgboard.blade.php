@@ -39,6 +39,13 @@
             <br><span class="w3-text-grey w3-small">更新日期: {{ $msg->updated_at }}</span>
             <!-- 留言訊息 -->
             <p><?= nl2br($msg->message) ?></p>
+            @if($msg->uploads)
+            <div class="w3-container">
+                @foreach($msg->uploads as $pic)
+                    <img class="w3-round" src="{{ $pic->saved_to.'/'.$pic->saved_as }}" alt="{{ $pic->name }}">
+                @endforeach
+            </div>
+            @endif
             <!-- 修改&刪除按鈕 -->
             @if($login && ( $msg->user_id == Auth::user()->id || Auth::user()->admin ) )
                 <a class="w3-btn-floating  w3-purple" title="修改" onclick="show('modal_edit_msg_{{ $msg->id }}')"><i

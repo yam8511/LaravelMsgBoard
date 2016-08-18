@@ -21,8 +21,8 @@
             <form name="registerForm" action="register" method="post" onsubmit="return validate()" accept-charset="utf-8" class="w3-form  w3-margin ">
                 {{ csrf_field() }}
 
-                <label class="w3-label" for="form_username">帳號</label>
-                <input name="name" class="w3-input w3-hover-border-cyan" placeholder="您的帳戶" required="required" value="{{ old('name') }}" id="form_username" type="text">
+                <label class="w3-label" for="form_username">名稱</label>
+                <input name="name" class="w3-input w3-hover-border-cyan" placeholder="您的名稱" required="required" value="{{ old('name') }}" id="form_username" type="text">
                 @if (old('register') && $errors->has('name'))
                     <p class="help-block hint"><strong>{{ $errors->first('name') }}</strong></p>
                 @endif
