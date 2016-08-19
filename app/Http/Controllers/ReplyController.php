@@ -31,6 +31,8 @@ class ReplyController extends Controller
         $rpl->message = $request->input('message');
         $rpl->msgboard_id = $request->input('msg_id');
         $rpl->user_id = Auth::user()->id;
+        
+        date_default_timezone_set('Asia/Taipei');
         if(!$rpl->save()) {
             $request->session()->flash('failed', '回覆發生錯誤');
             return redirect('/');
@@ -66,6 +68,8 @@ class ReplyController extends Controller
             }
 
             $msg->message = $request->input('message');
+
+            date_default_timezone_set('Asia/Taipei');
             $msg->save();
             $request->session()->flash('success', 'Reply 編輯成功');
         } else {

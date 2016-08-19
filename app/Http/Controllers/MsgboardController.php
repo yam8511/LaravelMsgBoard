@@ -83,7 +83,6 @@ class MsgboardController extends Controller
      */
     public function addProcess(Request $request)
     {
-        echo dirname($_SERVER['HTTP_HOST']);
         $destinationPath = dirname($_SERVER['HTTP_HOST']).'/uploads';
         $msg = new Msgboard();
         $msg->title = $request->input('title');
@@ -106,6 +105,7 @@ class MsgboardController extends Controller
         if(Auth::check()) {
             $msg->user_id = Auth::user()->id;
         }
+        date_default_timezone_set('Asia/Taipei');
         $msg->save();
 
         if($file) {
@@ -132,13 +132,13 @@ class MsgboardController extends Controller
      */
     public function editMessage(Request $request)
     {
-        if(!Auth::user()->id != $request->input('id')) {
-            $request->session()->flash('failed', '這不是你發的文!');
-            return redirect('/');
-        }
-        
         $msg = Msgboard::find($request->input('id'));
+        
         if($msg) {
+            if(Auth::user()->id != $msg->user_id) {
+                $request->session()->flash('failed', '這不是你發的文!');
+                return redirect('/');
+            }
             $origin_msg = preg_replace('/\s(?=)/', '', trim($msg->message));
             $new_msg = preg_replace('/\s(?=)/', '', trim($request->input('message')));
 
@@ -147,6 +147,7 @@ class MsgboardController extends Controller
             }
 
             $msg->message = $request->input('message');
+            date_default_timezone_set('Asia/Taipei');
             $msg->save();
             $request->session()->flash('success', '編輯成功');
         } else {
@@ -165,6 +166,24 @@ class MsgboardController extends Controller
     {
         $msg = Msgboard::find($request->input('id'));
         if($msg) {
+            if(Auth::user()->id != $msg->user_id && !Auth::user()->admin ) {
+                $request->session()->flash('failed', '這不是你發的文!');
+                return redirect('/');
+            }
+
+            foreach( $msg->uploads as $pic ) {
+                $pathToFile = $pic->saved_to.'/'.$pic->saved_as;
+                if(!File::delete($pathToFile)) {
+                    $request->session()->flash('failed', '刪除失敗');
+                    return redirect('/');
+                }
+                $pic->delete();
+            }
+
+            foreach( $msg->replies as $rpl ) {
+                $rpl->delete();
+            }
+
             $msg->delete();
             $request->session()->flash('success', '刪除成功');
         } else {

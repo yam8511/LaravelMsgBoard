@@ -40,19 +40,21 @@
             <!-- 留言訊息 -->
             <p><?= nl2br($msg->message) ?></p>
             @if($msg->uploads)
-            <div class="w3-container">
+            <div class="w3-container w3-margin">
                 @foreach($msg->uploads as $pic)
                     <img class="w3-round" src="{{ $pic->saved_to.'/'.$pic->saved_as }}" alt="{{ $pic->name }}">
                 @endforeach
             </div>
             @endif
             <!-- 修改&刪除按鈕 -->
-            @if($login && ( $msg->user_id == Auth::user()->id || Auth::user()->admin ) )
+            @if($login && ( $msg->user_id == Auth::user()->id ))
                 <a class="w3-btn-floating  w3-purple" title="修改" onclick="show('modal_edit_msg_{{ $msg->id }}')"><i
                             class="fa fa-pencil"></i></a>
+                @include('modal_edit', ['type' => 'msg', 'msg' => $msg])
+            @endif
+            @if($login && ( $msg->user_id == Auth::user()->id || Auth::user()->admin ) )
                 <a class="w3-btn-floating  w3-red" title="刪除" onclick="show('modal_delete_msg_{{ $msg->id }}')"><i class="fa
                 fa-trash"></i></a>
-                @include('modal_edit', ['type' => 'msg', 'msg' => $msg])
                 @include('modal_delete', ['type' => 'msg', 'msg' => $msg ])
             @endif
         </div>

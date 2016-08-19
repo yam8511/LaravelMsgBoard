@@ -25,7 +25,7 @@
                     <!-- 顯示編輯視窗 -->
                     @include('modal_edit', ['type' => 'rpl', 'msg' => $rpl])
                 @endif
-                @if( $login && ( $rpl->user_id == Auth::user()->id || $msg->user($msg->user_id)->id == Auth::user()->id ) )
+                @if( $login && ( $rpl->user_id == Auth::user()->id || $msg->user($msg->user_id)->id == Auth::user()->id || Auth::user()->admin) )
                     <a class="w3-btn w3-round w3-red" title="刪除" onclick="show('modal_delete_rpl_{{ $rpl->id }}')"><i class="fa fa-trash"></i></a>
                     <!-- 顯示刪除提醒視窗 -->
                     @include('modal_delete', ['type' => 'rpl', 'msg' => $rpl])
